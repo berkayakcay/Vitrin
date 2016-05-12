@@ -1,0 +1,171 @@
+﻿@model OnlineShowCase.Models.Item
+@{
+    ViewBag.Title = "Item Detail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="col-md-12 col-sm-12 col-xs-12">
+    <div class="x_panel">
+        <div class="x_title">
+            <h2>Item <small>detail page</small></h2>
+            <ul class="nav navbar-right panel_toolbox">
+                <li>
+                    <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li>
+                            <a href="#">Settings 1</a>
+                        </li>
+                        <li>
+                            <a href="#">Settings 2</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a class="close-link"><i class="fa fa-close"></i></a>
+                </li>
+            </ul>
+            <div class="clearfix"></div>
+        </div>
+        <div class="x_content">
+            <br>
+            <form class="form-horizontal form-label-left">
+
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Item Name</label>
+                    <div class="col-md-9 col-sm-9 col-xs-12">
+                        <input type="text" class="form-control" value="@Model.Name" readonly="readonly">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">
+                        Sort Description <span class="required">*</span>
+                    </label>
+                    <div class="col-md-9 col-sm-9 col-xs-12">
+                        <textarea class="form-control" rows="2" readonly="readonly">@(Model.ItemDescription.SortDescription ?? string.Empty)</textarea>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">
+                        Description 1 <span class="required">*</span>
+                    </label>
+                    <div class="col-md-9 col-sm-9 col-xs-12">
+                        <textarea class="form-control" rows="5" readonly="readonly">@(Model.ItemDescription.Description1 ?? string.Empty)</textarea>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">
+                        Description 2<span class="required">*</span>
+                    </label>
+                    <div class="col-md-9 col-sm-9 col-xs-12">
+                        <textarea class="form-control" rows="5" readonly="readonly">@(Model.ItemDescription.Description2 ?? string.Empty)</textarea>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">
+                        Description 3<span class="required">*</span>
+                    </label>
+                    <div class="col-md-9 col-sm-9 col-xs-12">
+                        <textarea class="form-control" rows="5" readonly="readonly">@(Model.ItemDescription.Description3 ?? string.Empty)</textarea>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Item Category</label>
+                    <div class="col-md-9 col-sm-9 col-xs-12">
+                        <input type="text" class="form-control" value="@(Model.Category.Name == null ? string.Empty : @Model.Category.Name  +" (id :" + @Model.Category.Id ))" readonly="readonly">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Item Brand</label>
+                    <div class="col-md-9 col-sm-9 col-xs-12">
+                        <input type="text" class="form-control" value="@(Model.Brand.Name ?? string.Empty)" readonly="readonly">
+                    </div>
+                </div>
+
+
+                <div class="ln_solid"></div>
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Item Variants</label>
+                    <div class="col-md-9 col-sm-9 col-xs-12">
+                        <table class="table table-condensed table-hover table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Product Barcode</th>
+                                    <th>Product Color</th>
+                                    <th>Product Dim</th>
+                                    <th>Price</th>
+                                    <th>Stock</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var variant in Model.ItemVariants)
+                                {
+                                    <tr>
+                                        <td>@variant.Barcodes.Where(x => x.ItemVariantId == variant.Id).Select(x => x.ItemBarcode).FirstOrDefault()</td>
+                                        <td>@variant.ItemColor.Name - (Code: @variant.ItemColor.ColorCode)</td>
+                                        <td>@variant.ItemDim.Name - (Code: @variant.ItemDim.DimCode)</td>
+                                        <td>@variant.Item.Prices.Where(x => x.ItemId == variant.ItemId).OrderBy(x => x.CreatedDate).Select(x => x.ItemPrice).FirstOrDefault()</td>
+                                        <td>@variant.Stocks.Where(x => x.ItemVariantId == variant.Id).Select(x => x.In_Qty).SingleOrDefault()</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="ln_solid"></div>
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Item Photos</label>
+                    <div class="col-md-9 col-sm-9 col-xs-12">
+
+                        @foreach (var photo in Model.Photos)
+                        {
+                            <div class="col-md-55">
+                                <div class="thumbnail">
+                                    <div class="image view view-first">
+                                        <img style="width: 100%; display: block;" src="~/Content/images/product/@photo.PhotoPath_S" alt="image">
+                                        <div class="mask">
+                                            <p>@Model.Name</p>
+                                            <div class="tools tools-bottom">
+                                                <a href="~/Items/Photo/Detail/@photo.Id"><i class="fa fa-link"></i></a>
+                                                <a href="~/Items/Photo/Edit/@photo.Id"><i class="fa fa-pencil"></i></a>
+                                                <a href="~/Items/Photo/Delete/@photo.Id"><i class="fa fa-times"></i></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="caption">
+                                        <b>Photo Id</b>
+                                        <p>@photo.Id</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                        }
+
+
+
+                    </div>
+                </div>
+
+
+
+
+
+
+                <div class="ln_solid"></div>
+                <div class="form-group">
+                    <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-3">
+                        @Html.ActionLink("Back", "Index", "Item",null, htmlAttributes: new { @class = " btn btn-primary" })
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

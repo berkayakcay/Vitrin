@@ -1,0 +1,154 @@
+﻿@model OnlineShowCase.Models.Item
+@{
+    ViewBag.Title = "Product Detail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="col-md-12 col-sm-12 col-xs-12">
+    <div class="x_panel">
+        <div class="x_title">
+            <h2>@Model.Name</h2>
+            <ul class="nav navbar-right panel_toolbox">
+                <li>
+                    <a href="#"><i class="fa fa-chevron-up"></i></a>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li>
+                            <a href="#">Settings 1</a>
+                        </li>
+                        <li>
+                            <a href="#">Settings 2</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#"><i class="fa fa-close"></i></a>
+                </li>
+            </ul>
+            <div class="clearfix"></div>
+        </div>
+        <div class="x_content">
+
+            <div class="col-md-7 col-sm-7 col-xs-12">
+                <div class="product-image">
+                    <img src="~/Content/images/product/@Model.Photos.Where(x => x.ItemId == Model.Id && x.IsDefault == true).Select(s => s.PhotoPath_M).FirstOrDefault()" alt="@Model.Name">
+                </div>
+                <div class="product_gallery">
+                    @foreach (var photo in Model.Photos.Where(x => x.IsDefault.Value == false))
+                    {
+                        <a>
+                            <img src="~/Content/images/product/@photo.PhotoPath_S" alt="@Model.Name">
+                        </a>
+                    }
+                </div>
+            </div>
+
+            <div class="col-md-5 col-sm-5 col-xs-12" style="border:0px solid #e5e5e5;">
+
+                <h3 class="prod_title">@Model.Name</h3>
+
+                <p>@Model.ItemDescription.SortDescription</p>
+                <br>
+
+                <div class="">
+                    <h2>Available Colors</h2>
+                    <ul class="list-inline prod_color">
+
+                                                                                               
+                        @foreach (var itemcolor in Model.ItemVariants.Select(x => x.ItemColor).Distinct())
+                        {
+                            <li>
+                                <p>@itemcolor.Name</p>
+                                <div class="color" style="background: @itemcolor.Name !important; border: 1px solid #c0c0c0 !important; color: #fff;"></div>
+                            </li>
+                        }
+                    </ul>
+                </div>
+                <br>
+
+                <div class="">
+                    <h2>Size <small>Dimentions</small></h2>
+                    <ul class="list-inline prod_size">
+                        @foreach (var itemdim in Model.ItemVariants.Select(x => x.ItemDim).Distinct())
+                        {
+                            <li>
+                                <button type="button" class="btn btn-default btn-xs">@itemdim.DimCode</button>
+                            </li>
+                        }
+
+                    </ul>
+                </div>
+                <br>
+
+                <div class="">
+                    <div class="product_price">
+                        <h1 class="price">$@Model.Prices.Where(x => x.ItemId == Model.Id).Select(s => s.ItemPrice).FirstOrDefault()</h1>
+                        <span class="price-tax">Tax: %@Model.Prices.Where(x => x.ItemId == Model.Id).Select(s => s.VatRate).FirstOrDefault()</span>
+                        <br>
+                    </div>
+                </div>
+
+                <div class="">
+                    <button type="button" class="btn btn-default btn-lg">Example 1</button>
+                </div>
+
+              <!-- <div class="product_social">
+                    <ul class="list-inline">
+                        <li>
+                            <a href="#"><i class="fa fa-facebook-square"></i></a>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fa fa-twitter-square"></i></a>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fa fa-envelope-square"></i></a>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fa fa-rss-square"></i></a>
+                        </li>
+                    </ul>
+                </div> -->  
+
+            </div>
+
+
+            <div class="col-md-12">
+
+                <div class="" role="tabpanel" data-example-id="togglable-tabs">
+                    <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
+                        <li role="presentation" class="active">
+                            <a href="#tab_content1" id="home-tab" role="tab" data-toggle="tab" aria-expanded="true">Product Description 1</a>
+                        </li>
+                        <li role="presentation" class="">
+                            <a href="#tab_content2" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">Product Description 2</a>
+                        </li>
+                        <li role="presentation" class="">
+                            <a href="#tab_content3" role="tab" id="profile-tab2" data-toggle="tab" aria-expanded="false">Product Description 3</a>
+                        </li>
+                    </ul>
+                    <div id="myTabContent" class="tab-content">
+                        <div role="tabpanel" class="tab-pane fade active in" id="tab_content1" aria-labelledby="home-tab">
+                            <p>
+                              @Model.ItemDescription.Description1
+                            </p>
+                        </div>
+                        <div role="tabpanel" class="tab-pane fade" id="tab_content2" aria-labelledby="profile-tab">
+                            <p>
+                               @Model.ItemDescription.Description2
+                            </p>
+                        </div>
+                        <div role="tabpanel" class="tab-pane fade" id="tab_content3" aria-labelledby="profile-tab">
+                            <p>
+                                @Model.ItemDescription.Description3
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+

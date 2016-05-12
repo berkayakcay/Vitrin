@@ -1,0 +1,49 @@
+﻿@model OnlineShowCase.Models.User
+
+
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal">
+        <span aria-hidden="true">×</span>
+    </button>
+    <h4 class="modal-title" id="myModalLabel">Add New User</h4>
+</div>
+<div class="modal-body">
+    @using (Ajax.BeginForm("AddNewUser", "User", null,new { @class = "form-horizontal form-label-left" }))
+    {
+        <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12">First Last Name</label>
+            <div class="col-md-9 col-sm-9 col-xs-12">
+                @Html.TextBoxFor(model => model.FirstLast, new { @class = "form-control", placeholder = "First Last Name", required = "required" })
+            </div>
+        </div>
+
+            <div class="form-group">
+                <label class="control-label col-md-3 col-sm-3 col-xs-12">E-Mail Adress</label>
+                <div class="col-md-9 col-sm-9 col-xs-12">
+                    @Html.TextBoxFor(model => model.Email, new { @class = "form-control", placeholder = "E-Mail Adress", required = "required" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-md-3 col-sm-3 col-xs-12">User Password</label>
+                <div class="col-md-9 col-sm-9 col-xs-12">
+                    @Html.PasswordFor(model => model.Password, new { @class = "form-control", placeholder = "User Password", required = "required" })
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary" id="btnSave">Save This!</button>
+            </div>
+
+    }
+</div>
+
+<script type="text/javascript">
+    $(function() {
+        $('#btnSave')
+            .click(function() {
+                $('#modal-container').modal('hide');
+            });
+    })
+</script>

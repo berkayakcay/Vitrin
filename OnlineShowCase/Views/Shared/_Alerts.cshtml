@@ -1,0 +1,16 @@
+﻿@{
+    var alerts = TempData.ContainsKey(OnlineShowCase.Repository.Alerts.Alert.TempDataKey) ? (List<OnlineShowCase.Repository.Alerts.Alert>)TempData[OnlineShowCase.Repository.Alerts.Alert.TempDataKey] : new List<OnlineShowCase.Repository.Alerts.Alert>();
+
+    foreach (var alert in alerts)
+    {
+        var dismissableClass = alert.Dismissable ? "alert-dismissable" : null;
+        <div class="alert alert-@alert.AlertStyle @dismissableClass">
+
+            @if (alert.Dismissable)
+            {
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            }
+            @Html.Raw(alert.Message)
+        </div>
+    }
+}

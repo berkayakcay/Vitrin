@@ -1,0 +1,258 @@
+﻿@model OnlineShowCase.Models.Item
+@{
+    ViewBag.Title = "Item Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+
+    List<OnlineShowCase.Models.ItemColor> itemcolors = ViewBag.itemcolors;
+    List<OnlineShowCase.Models.ItemDim> itemdims = ViewBag.itemdims;
+
+}
+
+<div class="col-md-12 col-sm-12 col-xs-12">
+    <div class="x_panel">
+        <div class="x_title">
+            <h2>Create <small>create page</small></h2>
+            <ul class="nav navbar-right panel_toolbox">
+                <li>
+                    <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li>
+                            <a href="#">Settings 1</a>
+                        </li>
+                        <li>
+                            <a href="#">Settings 2</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a class="close-link"><i class="fa fa-close"></i></a>
+                </li>
+            </ul>
+            <div class="clearfix"></div>
+        </div>
+        <div class="x_content">
+            @using (Html.BeginForm("Create", "Item", FormMethod.Post, htmlAttributes: new { @class = "form-horizontal form-label-left" }))
+            {
+                @Html.AntiForgeryToken()
+
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Item Name</label>
+                    <div class="col-md-9 col-sm-9 col-xs-12">
+                        @Html.TextBoxFor(model => model.Name, new { @class = "form-control", placeholder = "Item Name", required = "required" })
+                    </div>
+                </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">
+                            Sort Description <span class="required">*</span>
+                        </label>
+                        <div class="col-md-9 col-sm-9 col-xs-12">
+                            @Html.TextAreaFor(model => model.ItemDescription.SortDescription, new { @class = "form-control", placeholder = "Sort Description", rows = "2", required = "required" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">
+                            Description 1 <span class="required">*</span>
+                        </label>
+                        <div class="col-md-9 col-sm-9 col-xs-12">
+                            @Html.TextAreaFor(model => model.ItemDescription.Description1, new { @class = "form-control", placeholder = "Description 1", rows = "5", required = "required" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">
+                            Description 2 <span class="required">*</span>
+                        </label>
+                        <div class="col-md-9 col-sm-9 col-xs-12">
+                            @Html.TextAreaFor(model => model.ItemDescription.Description2, new { @class = "form-control", placeholder = "Description 2", rows = "5", required = "required" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">
+                            Description 3 <span class="required">*</span>
+                        </label>
+                        <div class="col-md-9 col-sm-9 col-xs-12">
+                            @Html.TextAreaFor(model => model.ItemDescription.Description3, new { @class = "form-control", placeholder = "Description 3", rows = "5", required = "required" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Category Name</label>
+                        <div class="col-md-9 col-sm-9 col-xs-12">
+                            @Html.DropDownList("subcats", null, htmlAttributes: new { @class = "form-control" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Brand Name</label>
+                        <div class="col-md-9 col-sm-9 col-xs-12">
+                            @Html.DropDownList("brands", null, htmlAttributes: new { @class = "form-control" ,  id = "brandsList"})
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-md-3 col-sm-3 col-xs-12 control-label">
+                            Colors
+                            <br>
+                            <small class="text-navy">Choose colors</small>
+                        </label>
+
+                        <div class="col-md-9 col-sm-9 col-xs-12">
+                            @foreach (var itemcolor in itemcolors)
+                            {
+                                <div class="checkbox-inline">
+                                    <label>
+                                        <input type="checkbox" name="colors" class="flat" value="@itemcolor.Id" style="position: absolute; opacity: 0;"> @itemcolor.Name
+                                    </label>
+                                </div>
+                            }
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-md-3 col-sm-3 col-xs-12 control-label">
+                            Dimentions
+                            <br>
+                            <small class="text-navy">Choose item dimentions</small>
+                        </label>
+
+                        <div class="col-md-9 col-sm-9 col-xs-12">
+                            @foreach (var itemdim in itemdims)
+                            {
+                                <div class="checkbox-inline">
+                                    <label>
+                                        <input type="checkbox" name="dims" class="flat" value="@itemdim.Id" style="position: absolute; opacity: 0;"> @itemdim.Name
+                                    </label>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                    <div class="ln_solid"></div>
+                    <div class="form-group">
+                        <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-3">
+                            @Html.ActionLink("Cancel", "Index", "Item", null, htmlAttributes: new { @class = " btn btn-primary" })
+                            <button type="submit" class="btn btn-success">Submit</button>
+                        </div>
+                    </div>
+
+            }
+
+           
+        </div>
+    </div>
+</div>
+
+
+@section headerfile
+{
+
+    <link href="~/Content/css/bootstrap.min.css" rel="stylesheet">
+
+    <link href="~/Content/fonts/css/font-awesome.min.css" rel="stylesheet">
+    <link href="~/Content/css/animate.min.css" rel="stylesheet">
+
+    <!-- Custom styling plus plugins -->
+    <link href="~/Content/css/custom.css" rel="stylesheet">
+    <link href="~/Content/css/icheck/flat/green.css" rel="stylesheet">
+    <!-- editor -->
+    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.css" rel="stylesheet">
+    <link href="~/Content/css/editor/external/google-code-prettify/prettify.css" rel="stylesheet">
+    <link href="~/Content/css/editor/index.css" rel="stylesheet">
+
+    <!-- switchery -->
+    <link rel="stylesheet" href="~/Content/css/switchery/switchery.min.css" />
+
+    <script src="~/Content/js/jquery.min.js"></script>
+
+
+    <script src="~/Content/js/bootstrap.min.js"></script>
+
+    <!-- bootstrap progress js -->
+    <script src="~/Content/js/progressbar/bootstrap-progressbar.min.js"></script>
+
+    <!-- richtext editor -->
+    <script src="~/Content/js/editor/bootstrap-wysiwyg.js"></script>
+    <script src="~/Content/js/editor/external/jquery.hotkeys.js"></script>
+    <script src="~/Content/js/editor/external/google-code-prettify/prettify.js"></script>
+
+    <!-- pace -->
+    <script src="~/Content/js/pace/pace.min.js"></script>
+
+
+    <!-- editor -->
+    <script>
+        $(document).ready(function () {
+            $('.xcxc').click(function () {
+                $('#descr').val($('#editor').html());
+            });
+        });
+
+        $(function () {
+            function initToolbarBootstrapBindings() {
+                var fonts = ['Serif', 'Sans', 'Arial', 'Arial Black', 'Courier',
+                        'Courier New', 'Comic Sans MS', 'Helvetica', 'Impact', 'Lucida Grande', 'Lucida Sans', 'Tahoma', 'Times',
+                        'Times New Roman', 'Verdana'
+                    ],
+                    fontTarget = $('[title=Font]').siblings('.dropdown-menu');
+                $.each(fonts, function (idx, fontName) {
+                    fontTarget.append($('<li><a data-edit="fontName ' + fontName + '" style="font-family:\'' + fontName + '\'">' + fontName + '</a></li>'));
+                });
+                $('a[title]').tooltip({
+                    container: 'body'
+                });
+                $('.dropdown-menu input').click(function () {
+                        return false;
+                    })
+                    .change(function () {
+                        $(this).parent('.dropdown-menu').siblings('.dropdown-toggle').dropdown('toggle');
+                    })
+                    .keydown('esc', function () {
+                        this.value = '';
+                        $(this).change();
+                    });
+
+                $('[data-role=magic-overlay]').each(function () {
+                    var overlay = $(this),
+                        target = $(overlay.data('target'));
+                    overlay.css('opacity', 0).css('position', 'absolute').offset(target.offset()).width(target.outerWidth()).height(target.outerHeight());
+                });
+                if ("onwebkitspeechchange" in document.createElement("input")) {
+                    var editorOffset = $('#editor').offset();
+                    $('#voiceBtn').css('position', 'absolute').offset({
+                        top: editorOffset.top,
+                        left: editorOffset.left + $('#editor').innerWidth() - 35
+                    });
+                } else {
+                    $('#voiceBtn').hide();
+                }
+            };
+
+            function showErrorAlert(reason, detail) {
+                var msg = '';
+                if (reason === 'unsupported-file-type') {
+                    msg = "Unsupported format " + detail;
+                } else {
+                    console.log("error uploading file", reason, detail);
+                }
+                $('<div class="alert"> <button type="button" class="close" data-dismiss="alert">&times;</button>' +
+                    '<strong>File upload error</strong> ' + msg + ' </div>').prependTo('#alerts');
+            };
+            initToolbarBootstrapBindings();
+            $('#editor').wysiwyg({
+                fileUploadError: showErrorAlert
+            });
+            window.prettyPrint && prettyPrint();
+        });
+    </script>
+    <!-- /editor -->
+
+
+}
